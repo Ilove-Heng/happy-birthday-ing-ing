@@ -120,14 +120,35 @@ body {
     background: #ff2d5b;
 }
 
-.gallery-indicator span {
+.btn-autoplay {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid #ffb3cb;
+    border-radius: 25px;
+    padding: 7px 20px;
     font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 600;
     color: #8b4f74;
-    background: rgba(255, 255, 255, 0.7);
-    padding: 6px 16px;
-    border-radius: 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.18);
+    transition: all 0.25s ease;
+}
+
+.btn-autoplay:hover {
+    background: white;
+    color: #ff4370;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 105, 180, 0.3);
+}
+
+.btn-autoplay.active {
+    background: linear-gradient(135deg, #ff6b8b, #ff4370);
+    color: white;
+    border-color: white;
+    box-shadow: 0 4px 15px rgba(255, 67, 112, 0.4);
 }
 
 /* Gallery Horizontal Scroll */
@@ -419,9 +440,10 @@ body {
         height: 38px;
         font-size: 1rem;
     }
-    .gallery-indicator span {
-        font-size: 0.85rem;
-        padding: 4px 12px;
+    .btn-autoplay {
+        font-size: 0.82rem;
+        padding: 5px 14px;
+        gap: 6px;
     }
     .gallery {
         gap: 1.2rem;

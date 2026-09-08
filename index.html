@@ -15,7 +15,7 @@
         rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
+    <script src="confetti.browser.min.js"></script>
 </head>
 
 <body>
@@ -31,7 +31,8 @@
             <span class="sparkle s7">🧸</span>
         </div>
 
-        <div class="splash-card">
+        <div class="splash-card" id="splashCard">
+            <button class="splash-close-btn" id="closeSplashBtn" aria-label="Skip intro" title="Enter Website">✕</button>
             <div class="splash-badge">Special Birthday Delivery 🎀</div>
             
             <div class="gift-box-wrapper" id="giftBoxTrigger" role="button" tabindex="0" aria-label="Tap to Open Your Birthday Surprise">
@@ -54,7 +55,7 @@
             <div class="splash-date-badge">✨ 10 September ✨</div>
             <p class="splash-hint">A magical birthday surprise awaits you today...</p>
 
-            <button class="btn-splash-open" id="openGiftBtn">
+            <button class="btn-splash-open" id="openGiftBtn" type="button">
                 <i class="fa-solid fa-gift"></i>
                 <span>Tap to Open Surprise ✨</span>
                 <i class="fa-solid fa-heart"></i>
@@ -286,13 +287,26 @@
     </div>
 
     <script>
+        // Safe Confetti wrapper with fallback
+        function safeConfetti(options) {
+            try {
+                if (typeof confetti === 'function') {
+                    confetti(options);
+                }
+            } catch (e) {
+                console.warn('Confetti note:', e);
+            }
+        }
+
         // Web Audio Synthesized Musical Chime
         function playCelebrationChime() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 if (!AudioContext) return;
                 const ctx = new AudioContext();
-                if (ctx.state === 'suspended') ctx.resume();
+                if (ctx.state === 'suspended') {
+                    ctx.resume().catch(() => {});
+                }
 
                 // Sweet melodic arpeggio: C5, E5, G5, B5, C6, E6
                 const notes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
@@ -309,7 +323,7 @@
                     osc.stop(ctx.currentTime + idx * 0.11 + 0.9);
                 });
             } catch (e) {
-                console.log('Audio chime error:', e);
+                console.log('Audio chime note:', e);
             }
         }
 
@@ -318,57 +332,84 @@
         const giftBoxTrigger = document.getElementById('giftBoxTrigger');
         const giftBox = document.getElementById('giftBox');
         const openGiftBtn = document.getElementById('openGiftBtn');
+        const closeSplashBtn = document.getElementById('closeSplashBtn');
         const replaySplashBtn = document.getElementById('replaySplashBtn');
         const soundToggleBtn = document.getElementById('soundToggleBtn');
 
-        function triggerSplashUnbox() {
-            giftBox.classList.add('opened');
-            playCelebrationChime();
+        let isUnboxing = false;
 
-            // Colorful Confetti Burst
-            confetti({
-                particleCount: 100,
-                spread: 80,
-                origin: { y: 0.55 }
-            });
+        function triggerSplashUnbox(e) {
+            if (e && e.stopPropagation) {
+                e.stopPropagation();
+            }
+            if (isUnboxing) return;
+            isUnboxing = true;
 
-            setTimeout(() => {
-                confetti({
-                    particleCount: 65,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0.1, y: 0.6 }
+            try {
+                if (giftBox) giftBox.classList.add('opened');
+                playCelebrationChime();
+                safeConfetti({
+                    particleCount: 90,
+                    spread: 80,
+                    origin: { y: 0.55 }
                 });
-                confetti({
-                    particleCount: 65,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 0.9, y: 0.6 }
-                });
-            }, 250);
 
-            // Fade out splash screen smoothly
+                setTimeout(() => {
+                    safeConfetti({
+                        particleCount: 60,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0.1, y: 0.6 }
+                    });
+                    safeConfetti({
+                        particleCount: 60,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 0.9, y: 0.6 }
+                    });
+                }, 200);
+            } catch (err) {
+                console.error('Animation error:', err);
+            }
+
+            // GUARANTEED FADE OUT & DISPLAY NONE
             setTimeout(() => {
-                splashScreen.classList.add('fade-out');
-            }, 450);
+                if (splashScreen) {
+                    splashScreen.classList.add('fade-out');
+                    setTimeout(() => {
+                        splashScreen.style.display = 'none';
+                        isUnboxing = false;
+                    }, 650);
+                }
+            }, 350);
         }
 
-        giftBoxTrigger.addEventListener('click', triggerSplashUnbox);
-        openGiftBtn.addEventListener('click', triggerSplashUnbox);
+        if (giftBoxTrigger) giftBoxTrigger.addEventListener('click', triggerSplashUnbox);
+        if (openGiftBtn) openGiftBtn.addEventListener('click', triggerSplashUnbox);
+        if (closeSplashBtn) closeSplashBtn.addEventListener('click', triggerSplashUnbox);
 
-        replaySplashBtn.addEventListener('click', () => {
-            splashScreen.classList.remove('fade-out');
-            giftBox.classList.remove('opened');
-        });
-
-        soundToggleBtn.addEventListener('click', () => {
-            playCelebrationChime();
-            confetti({
-                particleCount: 40,
-                spread: 50,
-                origin: { y: 0.3 }
+        if (replaySplashBtn) {
+            replaySplashBtn.addEventListener('click', () => {
+                if (splashScreen) {
+                    splashScreen.style.display = 'flex';
+                    void splashScreen.offsetWidth; // Force DOM reflow
+                    splashScreen.classList.remove('fade-out');
+                }
+                if (giftBox) giftBox.classList.remove('opened');
+                isUnboxing = false;
             });
-        });
+        }
+
+        if (soundToggleBtn) {
+            soundToggleBtn.addEventListener('click', () => {
+                playCelebrationChime();
+                safeConfetti({
+                    particleCount: 40,
+                    spread: 50,
+                    origin: { y: 0.3 }
+                });
+            });
+        }
 
         // 3D Folding Greeting Card Modal Logic
         const mailBox = document.getElementById('btn__letter');
@@ -376,33 +417,41 @@
         const cardContainer = document.querySelector('.boxMail-container');
         const closeBtn = document.querySelector('.fa-xmark');
 
-        mailBox.addEventListener('click', function () {
-            boxmail.classList.add('active');
-            cardContainer.classList.add('is-open');
-            playCelebrationChime();
-            confetti({
-                particleCount: 80,
-                spread: 70,
-                origin: { y: 0.6 }
+        if (mailBox) {
+            mailBox.addEventListener('click', function () {
+                if (boxmail) boxmail.classList.add('active');
+                if (cardContainer) cardContainer.classList.add('is-open');
+                playCelebrationChime();
+                safeConfetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
             });
-        });
+        }
 
-        closeBtn.addEventListener('click', function () {
-            boxmail.classList.remove('active');
-        });
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                if (boxmail) boxmail.classList.remove('active');
+            });
+        }
 
-        boxmail.addEventListener('click', function (e) {
-            if (e.target === boxmail) {
-                boxmail.classList.remove('active');
-            }
-        });
+        if (boxmail) {
+            boxmail.addEventListener('click', function (e) {
+                if (e.target === boxmail) {
+                    boxmail.classList.remove('active');
+                }
+            });
+        }
 
         // Toggle card open/close inside modal on mobile
-        cardContainer.addEventListener('click', function (e) {
-            if (!e.target.closest('a')) {
-                cardContainer.classList.toggle('is-open');
-            }
-        });
+        if (cardContainer) {
+            cardContainer.addEventListener('click', function (e) {
+                if (!e.target.closest('a')) {
+                    cardContainer.classList.toggle('is-open');
+                }
+            });
+        }
     </script>
 </body>
 </html>

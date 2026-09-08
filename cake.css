@@ -7021,3 +7021,27 @@ body {
     }
 }
 
+@media (max-width: 380px), (max-height: 580px) {
+    #mainTitle {
+        font-size: 20px;
+    }
+    #subTitle {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    .cake-container {
+        width: 210px;
+        height: 190px;
+    }
+    .cake {
+        transform: scale(3.3);
+        top: -33px;
+        left: 5px;
+    }
+    #blowButton {
+        padding: 7px 20px;
+        font-size: 15px;
+    }
+}
+
+

@@ -392,6 +392,9 @@ header h1 {
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 2rem 1.2rem 4rem;
+    }
     header h1 {
         font-size: 2.3rem;
     }
@@ -410,3 +413,91 @@ header h1 {
         padding: 1.5rem 1rem;
     }
 }
+
+@media (max-width: 520px) {
+    .container {
+        padding: 1.5rem 1rem 3.5rem;
+    }
+    header {
+        margin-bottom: 1.2rem;
+    }
+    header h1 {
+        font-size: 1.9rem;
+    }
+    .header-subtitle {
+        font-size: 0.95rem;
+    }
+    .letter-container {
+        padding: 1.4rem 1rem;
+        border-radius: 18px;
+        margin-bottom: 1.8rem;
+    }
+    .letter {
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+    .surprise-button-container {
+        margin: 1rem 0 2rem;
+    }
+    .surprise-button {
+        width: 100%;
+        max-width: 320px;
+        font-size: 1.05rem;
+        padding: 13px 20px;
+    }
+    .navigation-row {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .back-button, .restart-button {
+        width: 100%;
+        justify-content: center;
+        padding: 11px 18px;
+        font-size: 0.9rem;
+    }
+    .music-controls {
+        bottom: 16px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.15rem;
+    }
+    .modal {
+        padding: 1.2rem 0.9rem;
+        max-height: 85vh;
+        border-radius: 20px;
+    }
+    .modal-close {
+        top: 10px;
+        right: 14px;
+        font-size: 1.6rem;
+    }
+    .modal-header h2 {
+        font-size: 1.6rem;
+    }
+    .modal-header p {
+        font-size: 0.88rem;
+        margin-bottom: 0.8rem;
+    }
+    .modal-tabs {
+        gap: 6px;
+        margin-bottom: 0.8rem;
+    }
+    .tab-btn {
+        padding: 6px 14px;
+        font-size: 0.82rem;
+    }
+    .video-card video {
+        max-height: 45vh;
+    }
+    .photo-card-wrap img {
+        max-height: 260px;
+    }
+    .photo-note p {
+        font-size: 0.92rem;
+    }
+    .footer-love {
+        font-size: 1.25rem;
+    }
+}
+

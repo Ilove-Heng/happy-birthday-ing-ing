@@ -23,16 +23,18 @@ body {
     font-size: 16px;
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100vh;
     background-image:linear-gradient(var(--color-pink), var(--color-pink));
+    overflow-x: hidden;
 }
 #wrapper{
     position: relative;
     background-color: transparent;
     background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255,1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1) 76%, transparent 77%, transparent);
-    height:100%;
+    min-height: 100vh;
     background-size:80px 80px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     z-index: 1;
 }
 .flag__birthday{
@@ -1125,4 +1127,103 @@ body {
 
 .boxMail .imageCute span {
     font-size: 28px;
+}
+
+/* Comprehensive Mobile Responsiveness Improvements */
+@media screen and (max-width: 768px) {
+    .flag__birthday {
+        overflow: hidden;
+        pointer-events: none;
+    }
+    .flag__birthday img {
+        max-width: 48vw;
+        height: auto;
+    }
+    .boxMail .boxMail-container {
+        transform: scale(0.48);
+        transform-origin: center center;
+    }
+    .boxMail .boxMail-container.is-open {
+        transform: scale(0.48) rotate(-2deg);
+        transform-origin: center center;
+    }
+    .boxMail .fa-xmark {
+        top: 20px;
+        right: 25px;
+        font-size: 2rem;
+        z-index: 100;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .content {
+        padding-top: 1rem;
+        gap: 15px;
+    }
+    .title {
+        font-size: 1.25rem;
+        letter-spacing: 5px;
+    }
+    .title .hat {
+        right: -30px;
+        top: -40px !important;
+        transform: rotate(-35deg) scale(0.8);
+    }
+    .cricle {
+        right: -15px;
+        top: 0px;
+        transform: scale(0.85);
+    }
+    .box__account .image {
+        width: 130px;
+        height: 130px;
+    }
+    .box__account .balloon_one,
+    .box__account .balloon_two {
+        transform: scale(0.85);
+    }
+    #btn__letter {
+        width: 190px;
+        font-size: 0.95rem;
+        padding: 8px 12px;
+    }
+    .next-surprise-pill {
+        margin-top: 10px;
+    }
+    .next-surprise-pill a {
+        padding: 8px 18px;
+        font-size: 13px;
+    }
+    .boxMail .boxMail-container {
+        transform: scale(0.42);
+        transform-origin: center center;
+    }
+    .boxMail .boxMail-container.is-open {
+        transform: scale(0.42) rotate(-2deg);
+        transform-origin: center center;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .title {
+        font-size: 1.1rem;
+        letter-spacing: 4px;
+    }
+    .title .hat {
+        right: -20px;
+        top: -35px !important;
+        transform: rotate(-35deg) scale(0.7);
+    }
+    .cricle {
+        right: -5px;
+        transform: scale(0.75);
+    }
+    .boxMail .boxMail-container {
+        transform: scale(0.36);
+        transform-origin: center center;
+    }
+    .boxMail .boxMail-container.is-open {
+        transform: scale(0.36) rotate(-2deg);
+        transform-origin: center center;
+    }
 }

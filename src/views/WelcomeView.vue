@@ -107,7 +107,10 @@ function navigateTo(path: string) {
         >
           ✕
         </button>
-        <div class="splash-badge">Special Birthday Delivery 🎀</div>
+        <div class="splash-badge">
+          <img :src="assetUrl('images/mewmew.gif')" alt="Mew Mew" class="splash-mew-mini" />
+          <span>Special Birthday Delivery 🎀</span>
+        </div>
 
         <div
           class="gift-box-wrapper"
@@ -229,10 +232,22 @@ function navigateTo(path: string) {
               <i class="fa-solid fa-star"></i>
             </div>
 
-            <!-- Romantic Khmer Quote -->
-            <div class="hero-quote-card">
-              <p>រីករាយថ្ងៃខួបកំណើតមនុស្សពិសេសរបស់បង អុីង អុីង! 🎂💍</p>
-              <p class="subquote">ស្រឡាញ់អូនខ្លាំងជាងម្សិលមិញ និងកាន់តែខ្លាំងជារៀងរហូត 🤍✨</p>
+            <!-- Romantic Khmer Quote with Cute Mew Mew Mascot -->
+            <div class="hero-quote-wrapper">
+              <div class="hero-quote-card">
+                <p>រីករាយថ្ងៃខួបកំណើតមនុស្សពិសេសរបស់បង អុីង អុីង! 🎂💍</p>
+                <p class="subquote">ស្រឡាញ់អូនខ្លាំងជាងម្សិលមិញ និងកាន់តែខ្លាំងជារៀងរហូត 🤍✨</p>
+              </div>
+              <div
+                class="hero-mewmew-mascot"
+                @click="playSparkleSound"
+                title="Meow! Happy Birthday Ing Ing! 🐾💖"
+                role="button"
+                tabindex="0"
+              >
+                <div class="mewmew-bubble">Meow! 🐾💕</div>
+                <img :src="assetUrl('images/mewmew.gif')" alt="Cute Mew Mew Cat" class="mewmew-img" />
+              </div>
             </div>
 
             <!-- Primary Action Buttons -->
@@ -376,8 +391,9 @@ function navigateTo(path: string) {
           </div>
           <h4 class="username">To: Ing Ing 💖<span class="underline"></span></h4>
           <h3>Happy Birthday</h3>
-          <div class="imageCute">
-            <span>🎂✨🌸</span>
+          <div class="imageCute card-mewmew-wrap">
+            <img :src="assetUrl('images/mewmew.gif')" alt="Cute Cat Mew Mew" class="card-mewmew-gif" />
+            <span class="card-mewmew-note">Meow Meow 💕</span>
           </div>
         </div>
         <div class="card2">
@@ -416,5 +432,131 @@ function navigateTo(path: string) {
   background-color: var(--color-pink);
   position: relative;
   overflow-x: hidden;
+}
+
+/* ===================================================
+   MEW MEW MASCOT COMPANION STYLING
+   =================================================== */
+
+/* Hero Section Mascot */
+.hero-quote-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin-top: 1.2rem;
+}
+
+.hero-mewmew-mascot {
+  position: absolute;
+  right: -24px;
+  top: -46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 15;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero-mewmew-mascot:hover,
+.hero-mewmew-mascot:active {
+  transform: scale(1.15) rotate(6deg);
+}
+
+.hero-mewmew-mascot .mewmew-img {
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(255, 67, 112, 0.35));
+  animation: mewmewBob 2.4s infinite ease-in-out;
+}
+
+.hero-mewmew-mascot .mewmew-bubble {
+  background: #ffffff;
+  color: #ff4370;
+  font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 14px;
+  border: 1.5px solid #ffb6c9;
+  box-shadow: 0 4px 10px rgba(255, 67, 112, 0.22);
+  white-space: nowrap;
+  margin-bottom: -6px;
+  position: relative;
+  z-index: 2;
+  animation: bubbleWiggle 2.4s infinite ease-in-out;
+}
+
+.hero-mewmew-mascot .mewmew-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+}
+
+/* 3D Greeting Card Modal Mew Mew */
+.card-mewmew-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.card-mewmew-gif {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+  animation: mewmewBob 2s infinite ease-in-out;
+}
+
+.card-mewmew-note {
+  font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  margin-top: 4px;
+}
+
+/* Splash screen badge mewmew */
+.splash-mew-mini {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  margin-right: 8px;
+  vertical-align: middle;
+  display: inline-block;
+  animation: mewmewBob 2s infinite ease-in-out;
+}
+
+@keyframes mewmewBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes bubbleWiggle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-2deg); }
+}
+
+@media (max-width: 768px) {
+  .hero-mewmew-mascot {
+    right: -10px;
+    top: -40px;
+  }
+  .hero-mewmew-mascot .mewmew-img {
+    width: 65px;
+    height: 65px;
+  }
 }
 </style>

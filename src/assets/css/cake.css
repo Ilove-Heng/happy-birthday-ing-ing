@@ -6843,7 +6843,7 @@ body {
     font-family: 'Pixelify Sans', 'Kantumruy Pro', sans-serif;
 }
 
-.container {
+.cake-stage .container {
     display: flex;
     flex-direction: column;
     align-items: center;

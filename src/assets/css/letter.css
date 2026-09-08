@@ -71,6 +71,8 @@ header h1 {
     white-space: pre-wrap;
     word-break: break-word;
     min-height: 240px;
+    text-align: left;
+    direction: ltr;
 }
 
 /* Surprise Button */

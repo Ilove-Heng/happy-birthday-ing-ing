@@ -1,0 +1,140 @@
+/* ===================================================
+   SWEET ROMANTIC BACKGROUND MUSIC WIDGET (ALL PAGES)
+   =================================================== */
+
+.sweet-music-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff4370, #ff758f);
+    border: 3px solid #ffffff;
+    box-shadow: 0 8px 25px rgba(255, 67, 112, 0.42), 0 0 0 2.5px #ffb3c6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 99999;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, background 0.3s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sweet-music-widget:hover {
+    transform: scale(1.12);
+    box-shadow: 0 10px 30px rgba(255, 67, 112, 0.6), 0 0 0 3px #ff8da1;
+}
+
+.sweet-music-widget:active {
+    transform: scale(0.95);
+}
+
+/* Playing Animated State */
+.sweet-music-widget.is-playing {
+    background: linear-gradient(135deg, #ff2357, #ff6584);
+    animation: widgetPulse 2.2s infinite ease-in-out;
+}
+
+.sweet-music-widget.is-playing .music-icon-spin {
+    animation: discSpin 4s linear infinite;
+}
+
+@keyframes widgetPulse {
+    0%, 100% {
+        box-shadow: 0 6px 20px rgba(255, 67, 112, 0.4), 0 0 0 2px #ffb3c6;
+    }
+    50% {
+        box-shadow: 0 10px 28px rgba(255, 67, 112, 0.65), 0 0 0 5px rgba(255, 179, 198, 0.5);
+    }
+}
+
+@keyframes discSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Paused State */
+.sweet-music-widget.is-paused {
+    background: rgba(255, 255, 255, 0.95);
+    color: #ff4370;
+    border-color: #ffc2d1;
+    box-shadow: 0 4px 14px rgba(255, 105, 180, 0.2), 0 0 0 1.5px #ffe0e8;
+}
+
+.sweet-music-widget.is-paused:hover {
+    background: #ffffff;
+    color: #e63968;
+}
+
+/* Mini Tooltip / Banner */
+.sweet-music-tooltip {
+    position: absolute;
+    right: 62px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #d81b60;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 6px 18px rgba(255, 67, 112, 0.22);
+    border: 1.5px solid #ffb6c9;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sweet-music-widget:hover .sweet-music-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Floating Musical Notes Animation */
+.music-floating-note {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99998;
+    color: #ff4370;
+    font-weight: bold;
+    user-select: none;
+    animation: floatNoteUp 2.4s forwards cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes floatNoteUp {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.6) rotate(0deg);
+    }
+    15% {
+        opacity: 0.9;
+        transform: translate(-10px, -20px) scale(1.1) rotate(-10deg);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(12px, -60px) scale(1) rotate(15deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-15px, -110px) scale(0.8) rotate(-15deg);
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+    .sweet-music-widget {
+        bottom: 18px;
+        right: 18px;
+        width: 46px;
+        height: 46px;
+        font-size: 1.1rem;
+    }
+    .sweet-music-tooltip {
+        display: none; /* Keep clean on small mobile screens */
+    }
+}

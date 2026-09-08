@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="letter.css">
+    <link rel="stylesheet" href="sweet-music.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
 </head>
@@ -103,63 +104,6 @@
     </div>
 
     <script>
-        // Web Audio synthesized romantic lofi piano progression
-        let isMusicPlaying = false;
-        let melodyInterval = null;
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playPianoChord(frequencies) {
-            frequencies.forEach(f => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(f, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.8);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 3);
-            });
-        }
-
-        const chords = [
-            [261.63, 329.63, 392.00, 493.88], // Cmaj7
-            [220.00, 261.63, 329.63, 392.00], // Am7
-            [174.61, 220.00, 261.63, 329.63], // Fmaj7
-            [196.00, 246.94, 293.66, 349.23]  // G7
-        ];
-        let chordIdx = 0;
-
-        function startMelody() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            playPianoChord(chords[chordIdx]);
-            chordIdx = (chordIdx + 1) % chords.length;
-            melodyInterval = setInterval(() => {
-                playPianoChord(chords[chordIdx]);
-                chordIdx = (chordIdx + 1) % chords.length;
-            }, 3000);
-        }
-
-        function stopMelody() {
-            if (melodyInterval) clearInterval(melodyInterval);
-        }
-
-        const musicToggle = document.getElementById('music-toggle');
-        const musicIcon = document.getElementById('music-icon');
-
-        musicToggle.addEventListener('click', () => {
-            if (!isMusicPlaying) {
-                startMelody();
-                isMusicPlaying = true;
-                musicToggle.classList.add('playing');
-            } else {
-                stopMelody();
-                isMusicPlaying = false;
-                musicToggle.classList.remove('playing');
-            }
-        });
-
         // Typewriter Effect
         document.addEventListener('DOMContentLoaded', function () {
             const letterContent = `🎈🎂🎈 រីករាយថ្ងៃខួបកំណើតមនុស្សពិសេសរបស់បង អុីង អុីង! 😍^600\n\nអរគុណអូនដែលបានចូលមកក្នុងជីវិតរបស់បង អរគុណសម្រាប់ការខិតខំប្រឹងប្រែងកន្លងមក អរគុណដែលបានធំធាត់ឡើងយ៉ាងល្អ អរគុណដែលតែងតែជាប្រភពនៃក្ដីសុខរបស់បង តែងតែធ្វើឱ្យបងសើច និងអរគុណសម្រាប់គ្រប់ៗយ៉ាង។^600\n\nបងសង្ឃឹមថានៅក្នុងថ្ងៃដ៏ពិសេសនេះ អូននឹងមានតែក្ដីសុខ ពោរពេញដោយភាពរីករាយ និងទទួលបានក្ដីស្រឡាញ់យ៉ាងកក់ក្ដៅ។ បងនឹងនៅក្បែរអូនជានិច្ច អូននឹងមិនបាត់បង់ក្ដីស្រឡាញ់ពីបងឡើយ ព្រោះអូនគឺជាគូរដណ្តឹងដ៏ល្អបំផុតរបស់បង 🫶🏻។^600\n\nអូនពិតជាមនុស្សស្រីដ៏អស្ចារ្យ និងមានតម្លៃបំផុតសម្រាប់បង។ សូមឱ្យអូនមានសុខភាពល្អ និងមានក្ដីសុខរាល់ថ្ងៃណា bby 🤍🤍 ព្រោះបងស្រឡាញ់អូនខ្លាំងជាងម្សិលមិញ ហើយនឹងស្រឡាញ់អូនកាន់តែខ្លាំងជារៀងរហូត 😚🤍។`;
@@ -217,6 +161,24 @@
                 });
             });
 
+            surpriseVideo.addEventListener('play', function () {
+                if (window.sweetMusic && window.sweetMusic.isPlaying) {
+                    window.sweetMusic.stop();
+                }
+            });
+
+            surpriseVideo.addEventListener('pause', function () {
+                if (window.sweetMusic && window.sweetMusic.isEnabled) {
+                    window.sweetMusic.start();
+                }
+            });
+
+            surpriseVideo.addEventListener('ended', function () {
+                if (window.sweetMusic && window.sweetMusic.isEnabled) {
+                    window.sweetMusic.start();
+                }
+            });
+
             modalClose.addEventListener('click', function () {
                 modalOverlay.classList.remove('active');
                 surpriseVideo.pause();
@@ -250,6 +212,7 @@
             });
         });
     </script>
+    <script src="sweet-music.js"></script>
 </body>
 
 </html>

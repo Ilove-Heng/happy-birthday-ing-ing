@@ -92,9 +92,9 @@
                     <i class="fa-solid fa-gift"></i>
                     <span>Replay Intro</span>
                 </button>
-                <button id="musicToggleBtn" class="btn-top-tool music-active" title="Play / Pause Sweet Romantic Music">
-                    <i class="fa-solid fa-music" id="musicIcon"></i>
-                    <span id="musicText">Sweet Music 💕</span>
+                <button id="musicToggleBtn" class="btn-top-tool" title="Play / Pause Sweet Romantic Music">
+                    <i class="fa-solid fa-play" id="musicIcon"></i>
+                    <span id="musicText">Play Music 🎵</span>
                 </button>
             </div>
         </header>
@@ -332,8 +332,18 @@
 
             try {
                 if (giftBox) giftBox.classList.add('opened');
-                // Start the sweet romantic background music box immediately!
-                sweetMusic.start();
+
+                // 1. Play the loud celebratory fanfare chime sound effect immediately!
+                if (typeof window.playCelebrationSound === 'function') {
+                    window.playCelebrationSound();
+                }
+
+                // 2. Start the romantic background music box!
+                setTimeout(() => {
+                    if (window.sweetMusic) {
+                        window.sweetMusic.start();
+                    }
+                }, 600);
 
                 safeConfetti({
                     particleCount: 90,
@@ -377,6 +387,9 @@
 
         if (replaySplashBtn) {
             replaySplashBtn.addEventListener('click', () => {
+                if (typeof window.playSparkleSound === 'function') {
+                    window.playSparkleSound();
+                }
                 if (splashScreen) {
                     splashScreen.style.display = 'flex';
                     void splashScreen.offsetWidth; // Force DOM reflow

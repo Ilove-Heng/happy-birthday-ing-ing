@@ -477,6 +477,9 @@
 
         document.querySelectorAll('.polaroid-card').forEach(card => {
             card.addEventListener('click', () => {
+                if (typeof window.playSparkleSound === 'function') {
+                    window.playSparkleSound();
+                }
                 stopTimer();
                 const img = card.querySelector('img');
                 const caption = card.querySelector('.caption span').textContent;

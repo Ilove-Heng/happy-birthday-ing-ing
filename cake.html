@@ -313,6 +313,9 @@
             blowButton.style.display = "none";
             nextAction.style.display = "block";
             playChimeSound();
+            if (typeof window.playCelebrationSound === 'function') {
+                window.playCelebrationSound();
+            }
 
             // Big celebratory confetti
             const end = Date.now() + 3000;

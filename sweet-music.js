@@ -1,7 +1,7 @@
 /**
- * Sweet Romantic Background Music Box Engine
+ * Sweet Romantic Background Music & Sound FX Engine
  * For Ing Ing's Birthday Website 💕
- * Works across all 4 pages with unified state and seamless playback.
+ * Provides rich celebratory sound effects and melodic music box playback across all pages.
  */
 
 (function () {
@@ -14,17 +14,16 @@
             this.particleTimer = null;
             this.masterGain = null;
 
-            // Check previous user preference from sessionStorage
+            // Retrieve previous user preference from sessionStorage
             const savedState = sessionStorage.getItem('sweet_music_enabled');
-            // Default to true if not explicitly set to 'false'
             this.isEnabled = (savedState !== 'false');
 
             // Romantic Music Box Progression: 32-step melodic lullaby in C Major
             this.melody = [
-                // Phase 1: Gentle Theme
+                // Phase 1: Sweet Melodic Theme
                 [523.25, 1.0, [261.63, 329.63, 392.00]], // C5 + C chord
                 [659.25, 1.0, []],                        // E5
-                [783.99, 1.5, [329.63, 392.00]],          // G5 + C harmonic
+                [783.99, 1.5, [329.63, 392.00]],          // G5
                 [659.25, 0.5, []],                        // E5
                 [523.25, 1.0, []],                        // C5
                 [587.33, 1.0, [196.00, 246.94, 293.66]], // D5 + G/B chord
@@ -39,10 +38,10 @@
                 [659.25, 1.0, []],                        // E5
                 [587.33, 1.5, [196.00, 293.66]],          // D5 + G7
                 [493.88, 0.5, []],                        // B4
-                [523.25, 2.0, [261.63, 329.63, 523.25]], // C5 + C resolve
+                [523.25, 2.0, [261.63, 329.63, 523.25]], // C5 resolve
 
-                // Phase 2: Soaring Sweet Melody
-                [392.00, 1.0, []],                        // G4 pickup
+                // Phase 2: Soaring Romantic Melody
+                [392.00, 1.0, []],                        // G4
                 [523.25, 1.0, [261.63, 329.63]],          // C5
                 [659.25, 1.0, []],                        // E5
                 [783.99, 1.5, [392.00, 523.25]],          // G5
@@ -55,7 +54,7 @@
                 [698.46, 1.0, []],                        // F5
                 [659.25, 1.5, [196.00, 293.66, 493.88]], // E5 + G7
                 [587.33, 0.5, []],                        // D5
-                [523.25, 3.0, [130.81, 261.63, 329.63, 392.00, 523.25]] // Final warm acoustic resolve
+                [523.25, 3.0, [130.81, 261.63, 329.63, 392.00, 523.25]] // C5 final resolve
             ];
         }
 
@@ -65,61 +64,133 @@
                 if (AudioCtxClass) {
                     this.ctx = new AudioCtxClass();
                     this.masterGain = this.ctx.createGain();
-                    this.masterGain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+                    this.masterGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
                     this.masterGain.connect(this.ctx.destination);
                 }
             }
             if (this.ctx && this.ctx.state === 'suspended') {
                 this.ctx.resume().catch(() => {});
             }
+            return this.ctx;
         }
 
-        playNote(freq, time, duration = 1.6, volume = 0.13) {
-            if (!this.ctx || !freq) return;
-            try {
-                const now = time || this.ctx.currentTime;
+        // ==========================================
+        // 1. CELEBRATION SOUND EFFECTS
+        // ==========================================
+        playCelebrationSound() {
+            this.initContext();
+            if (!this.ctx) return;
+            if (this.ctx.state === 'suspended') {
+                this.ctx.resume().catch(() => {});
+            }
 
-                // 1. Primary Celesta / Music Box Fundamental Tone (Sine)
-                const osc = this.ctx.createOscillator();
-                const noteGain = this.ctx.createGain();
+            const ctx = this.ctx;
+            const now = ctx.currentTime + 0.015;
+
+            // Sparkling joyful celebration chime arpeggio: C5, E5, G5, B5, C6, E6, G6
+            const notes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51, 1567.98];
+            notes.forEach((freq, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const noteTime = now + idx * 0.085;
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, noteTime);
+
+                // Direct crisp attack with smooth decay
+                gain.gain.setValueAtTime(0.42, noteTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, noteTime + 0.85);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(noteTime);
+                osc.stop(noteTime + 0.9);
+            });
+        }
+
+        playSparkleSound() {
+            this.initContext();
+            if (!this.ctx) return;
+            if (this.ctx.state === 'suspended') {
+                this.ctx.resume().catch(() => {});
+            }
+
+            const ctx = this.ctx;
+            const now = ctx.currentTime + 0.015;
+            const notes = [783.99, 1046.50, 1318.51, 1567.98];
+            notes.forEach((freq, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const noteTime = now + idx * 0.06;
 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, now);
+                osc.frequency.setValueAtTime(freq, noteTime);
 
-                // Gentle natural acoustic envelope (soft attack, long exponential decay)
-                noteGain.gain.setValueAtTime(0.0001, now);
-                noteGain.gain.linearRampToValueAtTime(volume, now + 0.012);
-                noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                gain.gain.setValueAtTime(0.3, noteTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, noteTime + 0.45);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(noteTime);
+                osc.stop(noteTime + 0.5);
+            });
+        }
+
+        // ==========================================
+        // 2. BACKGROUND MUSIC BOX SYNTHESIS
+        // ==========================================
+        playNote(freq, time, duration = 1.4, volume = 0.32) {
+            if (!this.ctx || !freq) return;
+            try {
+                const ctx = this.ctx;
+                const noteTime = (time && time > ctx.currentTime ? time : ctx.currentTime) + 0.012;
+
+                // 1. Warm Triangle Tone (Celesta / Music Box)
+                const osc = ctx.createOscillator();
+                const noteGain = ctx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, noteTime);
+
+                // Direct attack with natural exponential chime decay
+                noteGain.gain.setValueAtTime(volume, noteTime);
+                noteGain.gain.exponentialRampToValueAtTime(0.001, noteTime + duration);
 
                 osc.connect(noteGain);
                 noteGain.connect(this.masterGain);
 
-                osc.start(now);
-                osc.stop(now + duration + 0.05);
+                osc.start(noteTime);
+                osc.stop(noteTime + duration + 0.05);
 
-                // 2. Crystal Harmonic Sparkle (Triangle octave overtone)
-                const harmOsc = this.ctx.createOscillator();
-                const harmGain = this.ctx.createGain();
+                // 2. Shimmer Sparkle Overtone (Sine at 2x freq)
+                const sparkOsc = ctx.createOscillator();
+                const sparkGain = ctx.createGain();
 
-                harmOsc.type = 'triangle';
-                harmOsc.frequency.setValueAtTime(freq * 2, now);
+                sparkOsc.type = 'sine';
+                sparkOsc.frequency.setValueAtTime(freq * 2, noteTime);
 
-                harmGain.gain.setValueAtTime(0.0001, now);
-                harmGain.gain.linearRampToValueAtTime(volume * 0.28, now + 0.008);
-                harmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+                sparkGain.gain.setValueAtTime(volume * 0.35, noteTime);
+                sparkGain.gain.exponentialRampToValueAtTime(0.001, noteTime + 0.35);
 
-                harmOsc.connect(harmGain);
-                harmGain.connect(this.masterGain);
+                sparkOsc.connect(sparkGain);
+                sparkGain.connect(this.masterGain);
 
-                harmOsc.start(now);
-                harmOsc.stop(now + 0.5);
+                sparkOsc.start(noteTime);
+                sparkOsc.stop(noteTime + 0.4);
             } catch (e) {
-                // Ignore audio context scheduling errors safely
+                console.warn('Audio scheduling note:', e);
             }
         }
 
         playNextStep() {
             if (!this.isPlaying || !this.ctx) return;
+            if (this.ctx.state === 'suspended') {
+                this.ctx.resume().then(() => this.playNextStep()).catch(() => {});
+                return;
+            }
+
             const item = this.melody[this.step];
             if (!item) {
                 this.step = 0;
@@ -129,24 +200,29 @@
             const [melodyFreq, durationBeats, chordNotes] = item;
             const now = this.ctx.currentTime;
 
-            // Play main melody bell
-            this.playNote(melodyFreq, now, 1.4, 0.14);
+            // Play main melody bell note
+            this.playNote(melodyFreq, now, 1.4, 0.32);
 
-            // Play accompanying chord notes
+            // Play accompanying chord harmony notes
             if (chordNotes && chordNotes.length > 0) {
                 chordNotes.forEach((cf, idx) => {
-                    this.playNote(cf, now + idx * 0.02, 2.0, 0.06);
+                    this.playNote(cf, now + idx * 0.02, 2.0, 0.20);
                 });
             }
 
-            // Beat timing: 430ms per beat
-            const beatDurationMs = durationBeats * 430;
+            // Beat interval: 440ms per beat
+            const beatDurationMs = durationBeats * 440;
             this.step = (this.step + 1) % this.melody.length;
             this.timer = setTimeout(() => this.playNextStep(), beatDurationMs);
         }
 
-        start() {
+        async start() {
             this.initContext();
+            if (this.ctx && this.ctx.state === 'suspended') {
+                try {
+                    await this.ctx.resume();
+                } catch (e) {}
+            }
             if (this.isPlaying) return;
             this.isPlaying = true;
             this.isEnabled = true;
@@ -261,13 +337,14 @@
         }
     }
 
-    // Initialize global instance
+    // Global Singleton Instances
     const musicEngine = new SweetMusicEngine();
     window.sweetMusic = musicEngine;
+    window.playCelebrationSound = () => musicEngine.playCelebrationSound();
+    window.playCelebrationChime = () => musicEngine.playCelebrationSound();
+    window.playSparkleSound = () => musicEngine.playSparkleSound();
 
-    // Build Floating Widget on DOM ready
     function setupMusicUI() {
-        // Create the floating music widget if neither it nor #music-toggle exists
         let widget = document.getElementById('sweetMusicWidget');
         const letterToggle = document.getElementById('music-toggle');
 
@@ -298,7 +375,6 @@
         }
 
         // Sync with letter.html toggle if present
-        const letterToggle = document.getElementById('music-toggle');
         if (letterToggle) {
             letterToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -307,7 +383,6 @@
         }
 
         // Autoplay logic across page navigation:
-        // If user left music enabled (default: true), start playback on page load or on first user gesture
         if (musicEngine.isEnabled) {
             const attemptStart = () => {
                 musicEngine.initContext();

@@ -666,9 +666,9 @@ body {
 
 .title .hat {
     position: absolute;
-    right: 15%;
-    top: -45px;
-    transform: rotate(-35deg);
+    left: 215px;
+    top: -42px;
+    transform: rotate(-30deg);
     z-index: 3;
     animation: hatFloat 3s infinite ease-in-out;
 }

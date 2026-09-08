@@ -152,6 +152,9 @@
             const surpriseVideo = document.getElementById('surpriseVideo');
 
             surpriseButton.addEventListener('click', function () {
+                if (typeof window.playCelebrationSound === 'function') {
+                    window.playCelebrationSound();
+                }
                 modalOverlay.classList.add('active');
                 surpriseVideo.play().catch(() => {});
                 confetti({

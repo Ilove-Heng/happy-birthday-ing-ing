@@ -73,7 +73,7 @@ body {
 }
 .left .btn{
     transform: scale(0);
-    animation: scaleCricle 2s 16s forwards ease-in-out;
+    animation: scaleCricle 1.5s 3.6s forwards ease-in-out;
 }
 #btn__letter{
     position: relative;
@@ -198,7 +198,7 @@ body {
     opacity: 0;
     visibility: hidden;
     width: 0px;
-    animation: dateOfBirth 5s 9s forwards;
+    animation: dateOfBirth 3s 3.2s forwards;
 }
 @keyframes dateOfBirth{
     20%,40%{
@@ -273,7 +273,7 @@ body {
     justify-content: center;
     align-items: center;
     transform: scale(0);
-    animation: scaleCricle 3s 15s forwards ease-in-out;
+    animation: scaleCricle 1.5s 3.4s forwards ease-in-out;
 }
 @keyframes scaleCricle {
     0%{
@@ -380,7 +380,7 @@ body {
     background-color: var(--color-black);
     clip-path: polygon(0 50%, 35% 35%, 50% 0, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%);
     animation: scaleCricle 3s var(--t) forwards, 
-            scaleStar 2s 16s infinite ease-in-out;
+            scaleStar 2s 3.8s infinite ease-in-out;
 }
 .decorate_star.star1{
     width: 20px;
@@ -451,7 +451,7 @@ body {
     bottom: 180px;
     left: 600px;
     transform: scale(0);
-    animation: scaleCricle 3s 15s forwards ease-in-out;
+    animation: scaleCricle 1.5s 3.4s forwards ease-in-out;
 }
 
 
@@ -691,7 +691,7 @@ body {
         justify-content: center;
         align-items: center;
         transform: scale(0);
-        animation: scaleCricle 3s 15s forwards ease-in-out;
+        animation: scaleCricle 1.5s 3.4s forwards ease-in-out;
     }
 
     .title .hat {
@@ -1022,4 +1022,107 @@ body {
     cursor: pointer;
     color: white;
     z-index: 10000000000000000;
+}
+/* Additional styles for Ing Ing Birthday experience */
+.next-surprise-pill {
+    margin-top: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInPill 1.2s 4.2s forwards ease;
+}
+.next-surprise-pill a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+    color: white;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 107, 139, 0.4);
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+.next-surprise-pill a:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 107, 139, 0.6);
+}
+
+@keyframes fadeInPill {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card 3D open state */
+.boxMail .boxMail-container.is-open {
+    transform: rotate(-3deg);
+    filter: drop-shadow(0 0 15px rgba(255, 120, 130, 0.8));
+}
+.boxMail .boxMail-container.is-open .card1 {
+    transform: translate(-187px, -250px) rotateY(-140deg);
+}
+.boxMail .boxMail-container.is-open .card2-content {
+    transform: translate(15px, 15px);
+    box-shadow: -2px -2px 10px rgba(0, 0, 0, 0.3);
+}
+.boxMail .boxMail-container.is-open .card2 h3 {
+    opacity: 1;
+    visibility: visible;
+    padding: 20px 0px 10px 120px;
+}
+.boxMail .boxMail-container.is-open .card2 h2 {
+    opacity: 1;
+}
+
+/* Card typography & scrolling */
+.boxMail .boxMail-container .card2 h2 {
+    font-family: 'Kantumruy Pro', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 5px 25px 15px 25px;
+    max-height: 320px;
+    overflow-y: auto;
+    font-weight: 400;
+    text-indent: 0;
+    color: #fff;
+}
+.boxMail .boxMail-container .card2 h2::-webkit-scrollbar {
+    width: 5px;
+}
+.boxMail .boxMail-container .card2 h2::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+}
+
+.boxMail .card2-action {
+    padding: 10px 25px 20px;
+    text-align: center;
+}
+.boxMail .btn-card-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #FF7882;
+    padding: 8px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+.boxMail .btn-card-next:hover {
+    background: #ffe3e6;
+    transform: scale(1.05);
+}
+
+.boxMail .imageCute span {
+    font-size: 28px;
 }

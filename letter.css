@@ -1,0 +1,412 @@
+/* letter.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Kantumruy Pro', sans-serif;
+}
+
+body {
+    background: linear-gradient(-45deg, #fce4ec, #f3e5f5, #e8eaf6, #e0f2f1);
+    background-size: 400% 400%;
+    animation: gradientShift 14s ease infinite;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    color: #3e2723;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3rem;
+    color: #d81b60;
+    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9), 0 0 20px rgba(216, 27, 96, 0.2);
+    margin-bottom: 0.5rem;
+}
+
+.header-subtitle {
+    font-family: 'Kantumruy Pro', sans-serif;
+    font-size: 1.15rem;
+    color: #7b1fa2;
+    font-weight: 600;
+}
+
+/* Letter Container */
+.letter-container {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 15px 35px rgba(216, 27, 96, 0.12), 0 0 0 2px rgba(255, 255, 255, 0.6);
+    border: 2px dashed #f48fb1;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.letter {
+    font-family: 'Kantumruy Pro', sans-serif;
+    font-size: 1.12rem;
+    line-height: 2.1;
+    color: #4a2c3d;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 240px;
+}
+
+/* Surprise Button */
+.surprise-button-container {
+    text-align: center;
+    margin: 1.5rem 0 2.5rem;
+}
+
+.surprise-button {
+    background: linear-gradient(135deg, #ff4081, #7c4dff);
+    color: white;
+    font-size: 1.35rem;
+    font-weight: 700;
+    padding: 16px 42px;
+    border: 3px solid white;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 64, 129, 0.45);
+    transition: all 0.3s ease;
+    font-family: 'Poppins', 'Kantumruy Pro', sans-serif;
+}
+
+.surprise-button:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 64, 129, 0.65);
+}
+
+.surprise-button.pulse-glow {
+    animation: pulseButton 1.6s infinite;
+}
+
+@keyframes pulseButton {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.7);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 18px rgba(255, 64, 129, 0);
+        transform: scale(1.04);
+    }
+}
+
+/* Navigation Row */
+.navigation-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.back-button, .restart-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+
+.back-button {
+    background: white;
+    color: #ad1457;
+    border: 2px solid #f48fb1;
+}
+
+.back-button:hover {
+    background: #fce4ec;
+    transform: translateX(-3px);
+}
+
+.restart-button {
+    background: white;
+    color: #4527a0;
+    border: 2px solid #b39ddb;
+}
+
+.restart-button:hover {
+    background: #ede7f6;
+    transform: translateX(3px);
+}
+
+/* Floating Elements */
+.floating-element {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.75;
+    animation: floatAnim infinite ease-in-out;
+}
+
+@keyframes floatAnim {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-25px) rotate(15deg);
+    }
+}
+
+/* Sparkle Cursor Trail */
+.sparkle-trail {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.1rem;
+    transform: translate(-50%, -50%);
+    animation: sparkleFade 0.7s forwards;
+}
+
+@keyframes sparkleFade {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -80%) scale(0.4);
+    }
+}
+
+/* Music Controls */
+.music-controls {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: white;
+    color: #d81b60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 100;
+    border: 2px solid #f48fb1;
+    transition: all 0.3s ease;
+}
+
+.music-controls:hover {
+    transform: scale(1.12);
+}
+
+.music-controls.playing {
+    background: linear-gradient(135deg, #ff4081, #7c4dff);
+    color: white;
+    animation: spinMusic 4s linear infinite;
+}
+
+@keyframes spinMusic {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 10, 30, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: white;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 28px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(216, 27, 96, 0.4);
+    transform: scale(0.85);
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    border: 4px solid #f8bbd0;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #ad1457;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-header h2 {
+    font-family: 'Pacifico', cursive;
+    color: #d81b60;
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+.modal-header p {
+    font-family: 'Kantumruy Pro', sans-serif;
+    color: #6a1b9a;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+}
+
+/* Tabs */
+.modal-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1.2rem;
+}
+
+.tab-btn {
+    padding: 8px 18px;
+    border-radius: 25px;
+    border: 2px solid #f48fb1;
+    background: white;
+    color: #ad1457;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background: #d81b60;
+    color: white;
+    border-color: #d81b60;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Video Card */
+.video-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: black;
+    margin-bottom: 1rem;
+}
+
+.video-card video {
+    width: 100%;
+    max-height: 380px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Photo Card */
+.photo-card-wrap {
+    background: #fff0f5;
+    padding: 12px;
+    border-radius: 18px;
+    border: 2px solid #f8bbd0;
+    margin-bottom: 1rem;
+}
+
+.photo-card-wrap img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.photo-note {
+    margin-top: 10px;
+    padding: 8px;
+}
+
+.photo-note p {
+    font-family: 'Kantumruy Pro', sans-serif;
+    font-size: 1rem;
+    color: #4a148c;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.footer-love {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #d81b60;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.3rem;
+    }
+    .letter-container {
+        padding: 1.8rem 1.2rem;
+    }
+    .letter {
+        font-size: 1.02rem;
+        line-height: 1.9;
+    }
+    .surprise-button {
+        font-size: 1.15rem;
+        padding: 14px 30px;
+    }
+    .modal {
+        padding: 1.5rem 1rem;
+    }
+}

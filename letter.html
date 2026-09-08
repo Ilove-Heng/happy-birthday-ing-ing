@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You Ing Ing ❤️ - Special Surprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Pacifico&family=Poppins:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="letter.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>For You Ing Ing ❤️</h1>
+            <p class="header-subtitle">សំបុត្រពិសេសសម្រាប់អូន 💌</p>
+        </header>
+
+        <!-- Letter Section -->
+        <div class="letter-container">
+            <div class="letter" id="typed-text"></div>
+        </div>
+
+        <!-- Surprise Button -->
+        <div class="surprise-button-container">
+            <button class="surprise-button" id="surprise-button">
+                <span>Click for a Surprise! 🎁</span>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-row">
+            <a href="cake.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Birthday Cake</span>
+            </a>
+            <a href="index.html" class="restart-button">
+                <i class="fas fa-rotate-left"></i>
+                <span>Start from Beginning</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal for Special Surprise -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">×</button>
+            
+            <div class="modal-header">
+                <h2>🎉 Surprise for Ing Ing! 🎉</h2>
+                <p>កាដូអនុស្សាវរីយ៍ដ៏មានតម្លៃបំផុតសម្រាប់អូន 💕</p>
+            </div>
+
+            <!-- Media tabs -->
+            <div class="modal-tabs">
+                <button class="tab-btn active" id="tabVideo">
+                    <i class="fas fa-film"></i>
+                    <span>Special Video 🎥</span>
+                </button>
+                <button class="tab-btn" id="tabPhoto">
+                    <i class="fas fa-image"></i>
+                    <span>Photo & Note 💖</span>
+                </button>
+            </div>
+
+            <!-- Video Tab Content -->
+            <div class="tab-content active" id="contentVideo">
+                <div class="video-card">
+                    <video id="surpriseVideo" controls playsinline poster="images/photos/photo_02.jpg">
+                        <source src="images/photos/video.mp4" type="video/mp4">
+                        Your browser does not support video tag.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Photo Tab Content -->
+            <div class="tab-content" id="contentPhoto">
+                <div class="photo-card-wrap">
+                    <img src="images/photos/photo_02.jpg" alt="Ing Ing" />
+                    <div class="photo-note">
+                        <p>
+                            "ស្នាមញញឹមរបស់អូន គឺជាក្ដីសុខដ៏ធំបំផុតរបស់បង។ រីករាយថ្ងៃខួបកំណើតណា Oun Sml 🎂✨"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p class="footer-love">Forever with you, my love 🫶</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Music Control Widget -->
+    <div class="music-controls" id="music-toggle" title="Play / Mute Music">
+        <i class="fas fa-music" id="music-icon"></i>
+    </div>
+
+    <script>
+        // Web Audio synthesized romantic lofi piano progression
+        let isMusicPlaying = false;
+        let melodyInterval = null;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playPianoChord(frequencies) {
+            frequencies.forEach(f => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.8);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 3);
+            });
+        }
+
+        const chords = [
+            [261.63, 329.63, 392.00, 493.88], // Cmaj7
+            [220.00, 261.63, 329.63, 392.00], // Am7
+            [174.61, 220.00, 261.63, 329.63], // Fmaj7
+            [196.00, 246.94, 293.66, 349.23]  // G7
+        ];
+        let chordIdx = 0;
+
+        function startMelody() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            playPianoChord(chords[chordIdx]);
+            chordIdx = (chordIdx + 1) % chords.length;
+            melodyInterval = setInterval(() => {
+                playPianoChord(chords[chordIdx]);
+                chordIdx = (chordIdx + 1) % chords.length;
+            }, 3000);
+        }
+
+        function stopMelody() {
+            if (melodyInterval) clearInterval(melodyInterval);
+        }
+
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+
+        musicToggle.addEventListener('click', () => {
+            if (!isMusicPlaying) {
+                startMelody();
+                isMusicPlaying = true;
+                musicToggle.classList.add('playing');
+            } else {
+                stopMelody();
+                isMusicPlaying = false;
+                musicToggle.classList.remove('playing');
+            }
+        });
+
+        // Typewriter Effect
+        document.addEventListener('DOMContentLoaded', function () {
+            const letterContent = `🎈🎂🎈 រីករាយថ្ងៃខួបកំណើតមនុស្សពិសេសរបស់បង អុីង អុីង! 😍^600\n\nអរគុណអូនដែលបានចូលមកក្នុងជីវិតរបស់បង អរគុណសម្រាប់ការខិតខំប្រឹងប្រែងកន្លងមក អរគុណដែលបានធំធាត់ឡើងយ៉ាងល្អ អរគុណដែលតែងតែជាប្រភពនៃក្ដីសុខរបស់បង តែងតែធ្វើឱ្យបងសើច និងអរគុណសម្រាប់គ្រប់ៗយ៉ាង។^600\n\nបងសង្ឃឹមថានៅក្នុងថ្ងៃដ៏ពិសេសនេះ អូននឹងមានតែក្ដីសុខ ពោរពេញដោយភាពរីករាយ និងទទួលបានក្ដីស្រឡាញ់យ៉ាងកក់ក្ដៅ។ បងនឹងនៅក្បែរអូនជានិច្ច អូននឹងមិនបាត់បង់ក្ដីស្រឡាញ់ពីបងឡើយ ព្រោះអូនគឺជាសង្សារដ៏ល្អបំផុតរបស់បង 🫶🏻។^600\n\nអូនពិតជាមនុស្សស្រីដ៏អស្ចារ្យ និងមានតម្លៃបំផុតសម្រាប់បង។ សូមឱ្យអូនមានសុខភាពល្អ និងមានក្ដីសុខរាល់ថ្ងៃណា bby 🤍🤍 ព្រោះបងស្រឡាញ់អូនខ្លាំងជាងម្សិលមិញ ហើយនឹងស្រឡាញ់អូនកាន់តែខ្លាំងជារៀងរហូត 😚🤍។`;
+
+            new Typed('#typed-text', {
+                strings: [letterContent],
+                typeSpeed: 24,
+                showCursor: true,
+                cursorChar: '💖',
+                onComplete: function () {
+                    const btn = document.getElementById('surprise-button');
+                    btn.classList.add('pulse-glow');
+                }
+            });
+
+            // Floating elements
+            const floatingEmojis = ['🧸', '✨', '❤️', '🌸', '🎀', '⭐', '🍓', '🍰'];
+            for (let i = 0; i < 24; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-element';
+                el.textContent = floatingEmojis[Math.floor(Math.random() * floatingEmojis.length)];
+                el.style.left = `${Math.random() * 100}vw`;
+                el.style.top = `${Math.random() * 100}vh`;
+                el.style.fontSize = `${Math.random() * 18 + 16}px`;
+                el.style.animationDuration = `${Math.random() * 6 + 6}s`;
+                el.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(el);
+            }
+
+            // Mouse sparkler trail
+            document.addEventListener('mousemove', function (e) {
+                if (Math.random() > 0.4) return;
+                const spark = document.createElement('div');
+                spark.className = 'sparkle-trail';
+                spark.style.left = `${e.pageX}px`;
+                spark.style.top = `${e.pageY}px`;
+                spark.textContent = Math.random() > 0.5 ? '✨' : '💖';
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 700);
+            });
+
+            // Surprise Modal Logic
+            const surpriseButton = document.getElementById('surprise-button');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalClose = document.getElementById('modal-close');
+            const surpriseVideo = document.getElementById('surpriseVideo');
+
+            surpriseButton.addEventListener('click', function () {
+                modalOverlay.classList.add('active');
+                surpriseVideo.play().catch(() => {});
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            });
+
+            modalClose.addEventListener('click', function () {
+                modalOverlay.classList.remove('active');
+                surpriseVideo.pause();
+            });
+
+            modalOverlay.addEventListener('click', function (e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    surpriseVideo.pause();
+                }
+            });
+
+            // Tab switching
+            const tabVideo = document.getElementById('tabVideo');
+            const tabPhoto = document.getElementById('tabPhoto');
+            const contentVideo = document.getElementById('contentVideo');
+            const contentPhoto = document.getElementById('contentPhoto');
+
+            tabVideo.addEventListener('click', () => {
+                tabVideo.classList.add('active');
+                tabPhoto.classList.remove('active');
+                contentVideo.classList.add('active');
+                contentPhoto.classList.remove('active');
+            });
+
+            tabPhoto.addEventListener('click', () => {
+                tabPhoto.classList.add('active');
+                tabVideo.classList.remove('active');
+                contentPhoto.classList.add('active');
+                contentVideo.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

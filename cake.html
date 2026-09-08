@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Cake for Ing Ing 🎂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="cake.css?v=20260908_fix3" />
+    <style>
+        /* Guarantee instant layout application regardless of browser cache */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #feefe5 !important;
+            background-image: radial-gradient(#fcd6c4 1.5px, transparent 1.5px) !important;
+            background-size: 20px 20px !important;
+            min-height: 100vh !important;
+            height: auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 10px 15px !important;
+            margin: 0 !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            font-family: 'Pixelify Sans', 'Kantumruy Pro', sans-serif !important;
+        }
+        .container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            max-width: 520px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        #birthdayText {
+            margin-bottom: 4px !important;
+        }
+        #mainTitle {
+            font-size: 26px !important;
+            color: #ff4370 !important;
+            margin-bottom: 2px !important;
+        }
+        #subTitle {
+            font-size: 15px !important;
+            color: #6d4b58 !important;
+            min-height: 22px !important;
+        }
+        .action-buttons-area {
+            margin: 4px 0 8px !important;
+            min-height: 42px !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 10 !important;
+        }
+        #blowButton {
+            padding: 8px 24px !important;
+            font-size: 16px !important;
+            box-shadow: 0 4px 15px rgba(255, 67, 112, 0.4) !important;
+        }
+        .cake-container {
+            position: relative !important;
+            width: 280px !important;
+            height: 250px !important;
+            margin: 0 auto !important;
+            display: block !important;
+            overflow: visible !important;
+        }
+        .cake {
+            position: absolute !important;
+            top: -45px !important;
+            left: 7px !important;
+            width: 1px !important;
+            height: 1px !important;
+            transform-origin: 0 0 !important;
+            transform: scale(4.5) !important;
+            animation: cake 1s infinite !important;
+            z-index: 1 !important;
+            overflow: visible !important;
+            cursor: pointer !important;
+        }
+        .candle {
+            cursor: pointer !important;
+        }
+        .cake-nav-back {
+            margin-top: 10px !important;
+        }
+        .cake-nav-back a {
+            font-size: 13px !important;
+            padding: 5px 16px !important;
+        }
+        @media (max-width: 520px), (max-height: 650px) {
+            #mainTitle { font-size: 22px !important; }
+            #subTitle { font-size: 13px !important; }
+            .cake-container { width: 235px !important; height: 210px !important; }
+            .cake { transform: scale(3.7) !important; top: -37px !important; left: 6px !important; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="birthdayText">
+            <div id="mainTitle">Happy Birthday, Ing Ing! 🎂</div>
+            <div id="subTitle">Make a wish and blow the candles 🕯️ / សូមប៉ងប្រាថ្នារួចផ្លុំទៀនណា</div>
+        </div>
+
+        <!-- Action Button (Placed ABOVE Cake, exactly like the TikTok video) -->
+        <div class="action-buttons-area">
+            <button id="blowButton">
+                <i class="fa-solid fa-wind"></i>
+                <span>Blow Candle</span>
+            </button>
+
+            <!-- Revealed after all candles are blown -->
+            <div class="next-action-container" id="nextAction">
+                <a href="letter.html" class="btn-final-letter">
+                    <span>Next Surprise: Final Letter & Gift 💌</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Cake Container (Exactly fitted bounding box) -->
+        <div class="cake-container" id="cakeContainer">
+            <div class="cake" id="cake"></div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="cake-nav-back">
+            <a href="memorylane.html">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Memories</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Web Audio API Synth Sound Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBlowSound() {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const bufferSize = audioCtx.sampleRate * 0.35;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.35);
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                noise.start();
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function playChimeSound() {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.12);
+                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime + idx * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.12 + 0.8);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + idx * 0.12);
+                    osc.stop(audioCtx.currentTime + idx * 0.12 + 0.85);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        const cake = document.getElementById("cake");
+        const cakeContainer = document.getElementById("cakeContainer");
+        const blowButton = document.getElementById("blowButton");
+        const subTitle = document.getElementById("subTitle");
+        const nextAction = document.getElementById("nextAction");
+
+        const colors = [
+            "green-candle",
+            "purple-candle",
+            "blue-candle",
+            "yellow-candle"
+        ];
+
+        const candleCount = 10;
+        const CAKE_VISUAL_WIDTH = 35;
+
+        function createCandles(count) {
+            cake.innerHTML = "";
+            const CANDLE_VISUAL_WIDTH = 2;
+            const availableWidth = CAKE_VISUAL_WIDTH;
+            const candlesPerRow = 6;
+            const shiftAmount = 4;
+
+            for (let i = 0; i < count; i++) {
+                const candle = document.createElement("div");
+                candle.classList.add("candle");
+                const colorClass = colors[Math.floor(Math.random() * colors.length)];
+                candle.classList.add(colorClass);
+
+                const row = Math.floor(i / candlesPerRow);
+                const col = i % candlesPerRow;
+                const totalCandlesInRow = Math.min(candlesPerRow, count - row * candlesPerRow);
+                const rowSpacing = availableWidth / (totalCandlesInRow + 1);
+                const leftBase = rowSpacing * (col + 1) - CANDLE_VISUAL_WIDTH / 2 + 5;
+                const rowShift = row % 2 === 0 ? 0 : shiftAmount;
+
+                candle.style.position = "absolute";
+                candle.style.top = `${10 + row * 3}px`;
+                candle.style.left = `${leftBase - rowShift + 4}px`;
+
+                // Allow clicking candle directly
+                candle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!candle.classList.contains('blown')) {
+                        blowSpecificCandle(candle);
+                    }
+                });
+
+                cake.appendChild(candle);
+            }
+        }
+
+        createCandles(candleCount);
+
+        function blowSpecificCandle(candle) {
+            candle.classList.add("blown");
+            playBlowSound();
+            confetti({
+                particleCount: 20,
+                spread: 40,
+                origin: { y: 0.5 }
+            });
+            checkRemaining();
+        }
+
+        function blowOneCandle() {
+            const candles = Array.from(document.querySelectorAll(".candle:not(.blown)"));
+            if (candles.length === 0) return;
+
+            const randomIndex = Math.floor(Math.random() * candles.length);
+            const selectedCandle = candles[randomIndex];
+            selectedCandle.classList.add("blown");
+            playBlowSound();
+
+            checkRemaining();
+        }
+
+        function checkRemaining() {
+            const remaining = document.querySelectorAll(".candle:not(.blown)").length;
+            if (remaining === 0) {
+                birthdayFinished();
+            } else {
+                updateMessage(remaining);
+            }
+        }
+
+        function updateMessage(remaining) {
+            if (remaining === 1) {
+                subTitle.textContent = "One more candle! 🎂 / នៅសល់តែមួយទៀនទៀតទេ!";
+            } else {
+                subTitle.textContent = `${remaining} candles left! Keep blowing! 🌬️`;
+            }
+        }
+
+        function birthdayFinished() {
+            subTitle.textContent = "Yayy! Love you so much Ing Ing!! 🎉❤️";
+            cakeContainer.classList.add("celebrate");
+            blowButton.style.display = "none";
+            nextAction.style.display = "block";
+            playChimeSound();
+
+            // Big celebratory confetti
+            const end = Date.now() + 3000;
+            const colors = ['#ff6b8b', '#9b51e0', '#ffd1dc', '#fff', '#ffd700'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        blowButton.addEventListener("click", blowOneCandle);
+        cake.addEventListener("click", blowOneCandle);
+    </script>
+</body>
+
+</html>

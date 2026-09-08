@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="km">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Lane - Ing Ing's Birthday Memories 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Pacifico&family=Poppins:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="memorylane.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <!-- Background decor -->
+    <div class="confetti-container"></div>
+    <div class="scrapbook-bg"></div>
+
+    <div class="memory-lane-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Welcome Ing Ing 💕</h1>
+            <div class="subtitle-card">
+                <p class="quote-khmer">
+                    "ថ្ងៃនេះជាថ្ងៃពិសេសសម្រាប់អូន — នារីដ៏ស្រស់ស្អាតដែលមានស្នាមញញឹមផ្អែមល្ហែម និងចិត្តល្អបំផុត។ អូនសមនឹងទទួលបានក្ដីសុខគ្រប់យ៉ាង និងក្ដីស្រឡាញ់ទាំងអស់លើលោកនេះ។ Happy Birthday My Girl 💖"
+                </p>
+                <span class="pill-badge">Oun Sml 🎀</span>
+            </div>
+        </header>
+
+        <!-- Gallery Controls -->
+        <div class="gallery-controls">
+            <button class="nav-arrow" id="prevBtn" aria-label="Previous photos">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="gallery-indicator">
+                <span id="scrollHint">Scroll or swipe to explore our memories 📸</span>
+            </div>
+            <button class="nav-arrow" id="nextBtn" aria-label="Next photos">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Polaroid Horizontal Carousel -->
+        <div class="gallery-wrapper">
+            <div class="gallery" id="gallery">
+                <!-- Polaroid Card 1 -->
+                <div class="polaroid-card" style="--rot: -2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🍰</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_01.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Delicious treats together 🍰</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 2 -->
+                <div class="polaroid-card" style="--rot: 2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🥰</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_02.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>That sweetest smile 💕</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 3 -->
+                <div class="polaroid-card" style="--rot: -1.5deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🌸</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_03.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Pure cuteness 🌸</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 4 -->
+                <div class="polaroid-card" style="--rot: 3deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">✨</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_04.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Our lovely date ✨</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 5 -->
+                <div class="polaroid-card" style="--rot: -2.5deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">💖</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_05.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Prettiest girl in my world 💖</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 6 -->
+                <div class="polaroid-card" style="--rot: 1.5deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🐶</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_06.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Adventures & lovely doggy 🐶</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 7 -->
+                <div class="polaroid-card" style="--rot: -2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🎀</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_07.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Special memories 🎀</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 8 -->
+                <div class="polaroid-card" style="--rot: 2.5deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🌟</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_08.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Always shining bright 🌟</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 9 -->
+                <div class="polaroid-card" style="--rot: -1deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">✌️</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_09.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Peace & sweet moments ✌️</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 10 -->
+                <div class="polaroid-card" style="--rot: 2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🧸</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_10.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>My favorite person 🧸</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 11 -->
+                <div class="polaroid-card" style="--rot: -3deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🤍</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_11.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Cherished forever 🤍</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 12 -->
+                <div class="polaroid-card" style="--rot: 1.8deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">☀️</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_12.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>You make every day brighter ☀️</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 13 -->
+                <div class="polaroid-card" style="--rot: -2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🍓</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_13.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Sweet moments with you 🍓</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 14 -->
+                <div class="polaroid-card" style="--rot: 2.2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">👑</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_14.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>My gorgeous queen 👑</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 15 -->
+                <div class="polaroid-card" style="--rot: -1.5deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">💫</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_15.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Making memories together 💫</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 16 -->
+                <div class="polaroid-card" style="--rot: 2.8deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🌙</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_16.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Love you to the moon and back 🌙</span>
+                    </div>
+                </div>
+
+                <!-- Polaroid Card 17 -->
+                <div class="polaroid-card" style="--rot: -2deg;">
+                    <div class="tape"></div>
+                    <div class="sticker">🫶</div>
+                    <div class="photo-wrapper">
+                        <img src="images/photos/photo_17.jpg" alt="Memory with Ing Ing" loading="lazy" />
+                    </div>
+                    <div class="caption">
+                        <span>Forever & always 🫶</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-btn back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Welcome</span>
+            </a>
+            <a href="cake.html" class="nav-btn next-btn">
+                <span>Next Surprise: Birthday Cake! 🎂</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">×</button>
+        <div class="lightbox-content">
+            <img src="" alt="Full view" id="lightboxImg" />
+            <p id="lightboxCaption"></p>
+        </div>
+    </div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Scroll controls
+        prevBtn.addEventListener('click', () => {
+            gallery.scrollBy({ left: -320, behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+            gallery.scrollBy({ left: 320, behavior: 'smooth' });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        document.querySelectorAll('.polaroid-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img');
+                const caption = card.querySelector('.caption span').textContent;
+                lightboxImg.src = img.src;
+                lightboxCaption.textContent = caption;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        // Confetti burst on load
+        window.addEventListener('load', () => {
+            confetti({
+                particleCount: 70,
+                spread: 60,
+                origin: { y: 0.2 }
+            });
+        });
+    </script>
+</body>
+
+</html>

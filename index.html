@@ -84,15 +84,15 @@
                 <img src="./images/1.png" alt="Party flags" class="flag__right">
             </div>
 
-            <!-- Top Controls: Replay Intro & Sound -->
+            <!-- Top Controls: Replay Intro & Sweet Music -->
             <div class="top-controls">
                 <button id="replaySplashBtn" class="btn-top-tool" title="Replay Welcome Surprise">
                     <i class="fa-solid fa-gift"></i>
                     <span>Replay Intro</span>
                 </button>
-                <button id="soundToggleBtn" class="btn-top-tool" title="Play Birthday Chime">
-                    <i class="fa-solid fa-music"></i>
-                    <span>Music Chime</span>
+                <button id="musicToggleBtn" class="btn-top-tool music-active" title="Play / Pause Sweet Romantic Music">
+                    <i class="fa-solid fa-music" id="musicIcon"></i>
+                    <span id="musicText">Sweet Music 💕</span>
                 </button>
             </div>
         </header>
@@ -168,13 +168,23 @@
                 <div class="hero-right">
                     <div class="portrait-card">
                         <div class="portrait-aura"></div>
+                        <div class="portrait-crown" title="Birthday Queen">👑</div>
+
+                        <!-- Floating Cute Sparkles around Portrait -->
+                        <div class="portrait-sparkles">
+                            <span class="ps s1">✨</span>
+                            <span class="ps s2">💖</span>
+                            <span class="ps s3">🌸</span>
+                            <span class="ps s4">⭐</span>
+                        </div>
+
                         <div class="portrait-frame">
                             <img src="./images/photos/photo_02.jpg" alt="Ing Ing - Birthday Girl" class="portrait-photo">
                         </div>
 
-                        <!-- Floating Badges -->
+                        <!-- Floating Badges (Cleanly separated without overlap) -->
                         <div class="float-badge badge-role">
-                            <span>គូរដណ្តឹង 💍</span>
+                            <span>គូរដណ្តឹងដ៏ល្អបំផុត 💍</span>
                         </div>
                         <div class="float-badge badge-nick">
                             <span>Oun Sml 🎀</span>
@@ -193,7 +203,7 @@
                             <img src="./images/balloon2.png" alt="Red balloon" width="95">
                         </div>
 
-                        <!-- Rotating Birthday Circle -->
+                        <!-- Rotating Birthday Circle Badge -->
                         <div class="cricle">
                             <div class="text__cricle">
                                 <span style="--i: 1;">h</span>
@@ -298,33 +308,148 @@
             }
         }
 
-        // Web Audio Synthesized Musical Chime
-        function playCelebrationChime() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContext) return;
-                const ctx = new AudioContext();
-                if (ctx.state === 'suspended') {
-                    ctx.resume().catch(() => {});
+        // Sweet Music Box Audio Engine
+        class SweetMusicBox {
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.timer = null;
+                this.step = 0;
+                // Romantic Music Box Progression: C major / G / Am / F gentle lullaby
+                this.melody = [
+                    [523.25, 1, [261.63, 329.63, 392.00]], // C5 + C chord
+                    [659.25, 1, []],                        // E5
+                    [783.99, 1.5, [329.63]],                // G5
+                    [659.25, 0.5, []],                      // E5
+                    [523.25, 1, []],                        // C5
+                    [587.33, 1, [196.00, 246.94, 293.66]], // D5 + G chord
+                    [493.88, 1, []],                        // B4
+                    [587.33, 1.5, [246.94]],                // D5
+                    [659.25, 0.5, []],                      // E5
+                    [440.00, 1.5, [220.00, 261.63, 329.63]], // A4 + Am chord
+                    [523.25, 0.5, []],                      // C5
+                    [659.25, 1, [261.63]],                  // E5
+                    [587.33, 1, []],                        // D5
+                    [523.25, 1, [174.61, 220.00, 261.63]], // C5 + F chord
+                    [659.25, 1, []],                        // E5
+                    [587.33, 1.5, [196.00, 293.66]],       // D5 + G7
+                    [493.88, 0.5, []],                      // B4
+                    [523.25, 2.5, [261.63, 329.63, 523.25]] // C5 resolve
+                ];
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) {
+                        this.ctx = new AudioContext();
+                    }
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume().catch(() => {});
+                }
+            }
+
+            playNote(freq, time, duration = 1.4, volume = 0.12) {
+                if (!this.ctx || !freq) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, time);
+
+                    gain.gain.setValueAtTime(0.0001, time);
+                    gain.gain.linearRampToValueAtTime(volume, time + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.start(time);
+                    osc.stop(time + duration + 0.05);
+
+                    // Gentle high sparkle harmonic
+                    const harm = this.ctx.createOscillator();
+                    const harmGain = this.ctx.createGain();
+                    harm.type = 'triangle';
+                    harm.frequency.setValueAtTime(freq * 2, time);
+                    harmGain.gain.setValueAtTime(0.0001, time);
+                    harmGain.gain.linearRampToValueAtTime(volume * 0.25, time + 0.01);
+                    harmGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.45);
+                    harm.connect(harmGain);
+                    harmGain.connect(this.ctx.destination);
+                    harm.start(time);
+                    harm.stop(time + 0.5);
+                } catch (e) {}
+            }
+
+            playNextStep() {
+                if (!this.isPlaying || !this.ctx) return;
+                const [melodyFreq, durationBeats, chordNotes] = this.melody[this.step];
+                const now = this.ctx.currentTime;
+
+                this.playNote(melodyFreq, now, 1.3, 0.13);
+
+                if (chordNotes && chordNotes.length > 0) {
+                    chordNotes.forEach((cf, idx) => {
+                        this.playNote(cf, now + idx * 0.02, 1.8, 0.06);
+                    });
                 }
 
-                // Sweet melodic arpeggio: C5, E5, G5, B5, C6, E6
-                const notes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
-                notes.forEach((freq, idx) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.11);
-                    gain.gain.setValueAtTime(0.22, ctx.currentTime + idx * 0.11);
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.11 + 0.85);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(ctx.currentTime + idx * 0.11);
-                    osc.stop(ctx.currentTime + idx * 0.11 + 0.9);
-                });
-            } catch (e) {
-                console.log('Audio chime note:', e);
+                const beatDurationMs = durationBeats * 460;
+                this.step = (this.step + 1) % this.melody.length;
+                this.timer = setTimeout(() => this.playNextStep(), beatDurationMs);
             }
+
+            start() {
+                this.init();
+                if (this.isPlaying) return;
+                this.isPlaying = true;
+                this.playNextStep();
+                updateMusicUI(true);
+            }
+
+            stop() {
+                this.isPlaying = false;
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                    this.timer = null;
+                }
+                updateMusicUI(false);
+            }
+
+            toggle() {
+                if (this.isPlaying) {
+                    this.stop();
+                } else {
+                    this.start();
+                }
+            }
+        }
+
+        const sweetMusic = new SweetMusicBox();
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+
+        function updateMusicUI(playing) {
+            if (!musicToggleBtn) return;
+            if (playing) {
+                musicToggleBtn.classList.add('music-active');
+                if (musicText) musicText.textContent = 'Sweet Music 💕';
+                if (musicIcon) musicIcon.className = 'fa-solid fa-music';
+            } else {
+                musicToggleBtn.classList.remove('music-active');
+                if (musicText) musicText.textContent = 'Play Music 🎵';
+                if (musicIcon) musicIcon.className = 'fa-solid fa-play';
+            }
+        }
+
+        if (musicToggleBtn) {
+            musicToggleBtn.addEventListener('click', () => {
+                sweetMusic.toggle();
+            });
         }
 
         // Splash Screen Unboxing Logic
@@ -334,7 +459,6 @@
         const openGiftBtn = document.getElementById('openGiftBtn');
         const closeSplashBtn = document.getElementById('closeSplashBtn');
         const replaySplashBtn = document.getElementById('replaySplashBtn');
-        const soundToggleBtn = document.getElementById('soundToggleBtn');
 
         let isUnboxing = false;
 
@@ -347,7 +471,9 @@
 
             try {
                 if (giftBox) giftBox.classList.add('opened');
-                playCelebrationChime();
+                // Start the sweet romantic background music box immediately!
+                sweetMusic.start();
+
                 safeConfetti({
                     particleCount: 90,
                     spread: 80,
@@ -397,17 +523,6 @@
                 }
                 if (giftBox) giftBox.classList.remove('opened');
                 isUnboxing = false;
-            });
-        }
-
-        if (soundToggleBtn) {
-            soundToggleBtn.addEventListener('click', () => {
-                playCelebrationChime();
-                safeConfetti({
-                    particleCount: 40,
-                    spread: 50,
-                    origin: { y: 0.3 }
-                });
             });
         }
 
